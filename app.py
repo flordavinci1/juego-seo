@@ -5,6 +5,10 @@ st.set_page_config(page_title="Auditoría SEO Educativa", layout="wide")
 st.title("🔍 Auditoría SEO Educativa")
 st.markdown("Guía paso a paso para revisar un sitio web en clase. Completá cada casilla para avanzar.")
 
+# --- URL del sitio ---
+st.header("🔗 URL a auditar")
+url = st.text_input("Ingresá la URL del sitio web que vas a revisar")
+
 # --- 1. Requisitos básicos ---
 st.header("1. Requisitos básicos")
 with st.expander("Checklist de requisitos"):
@@ -38,11 +42,15 @@ with st.expander("Checklist de marca"):
 st.header("5. Observaciones finales")
 observaciones = st.text_area("✏️ Anotaciones o hallazgos importantes")
 
-# --- Resumen ---
-st.header("📌 Resumen de auditoría")
+# --- Resumen y sugerencias estratégicas ---
+st.header("📌 Resumen de auditoría y recomendaciones")
 if st.button("Generar resumen"):
+    if url:
+        st.subheader(f"✅ Auditoría del sitio: {url}")
+    else:
+        st.subheader("✅ Auditoría del sitio (URL no ingresada)")
+
     st.subheader("Checklist completado:")
-    
     if robots: st.write("✔️ Revisado robots.txt")
     if sitemap: st.write("✔️ Revisado sitemap.xml")
     if meta: st.write("✔️ Revisados metadatos")
@@ -60,3 +68,39 @@ if st.button("Generar resumen"):
     if observaciones:
         st.subheader("📝 Observaciones")
         st.write(observaciones)
+
+    # --- Sugerencias estratégicas automáticas ---
+    st.subheader("🎯 Sugerencias estratégicas automáticas")
+    sugerencias = []
+
+    # Recomendaciones según checklist
+    if not robots:
+        sugerencias.append("✅ Revisar y configurar `robots.txt` para controlar la indexación.")
+    if not sitemap:
+        sugerencias.append("✅ Generar y subir `sitemap.xml` para mejorar la indexación.")
+    if not meta:
+        sugerencias.append("✅ Optimizar titles y meta descriptions para mejorar CTR y relevancia.")
+    if not errores_404:
+        sugerencias.append("✅ Corregir errores 404 para mejorar la experiencia de usuario y SEO.")
+    if not codigos_200:
+        sugerencias.append("✅ Asegurar que la mayoría de las páginas respondan con 200 OK.")
+    if not navegacion:
+        sugerencias.append("✅ Revisar navegación y enlaces internos para evitar errores.")
+    if not topicos:
+        sugerencias.append("✅ Redefinir contenidos para orientar el sitio a los tópicos correctos.")
+    if not alineacion:
+        sugerencias.append("✅ Ajustar la comunicación y objetivos del contenido para coherencia estratégica.")
+    if not keyword:
+        sugerencias.append("✅ Realizar un keyword research inicial para guiar la creación de contenido.")
+    if not gsc:
+        sugerencias.append("✅ Conectar con Google Search Console para monitorizar rendimiento y errores.")
+    if not menciones:
+        sugerencias.append("✅ Analizar menciones de la marca para identificar oportunidades de presencia online.")
+    if not reputacion:
+        sugerencias.append("✅ Revisar reputación online y responder a feedback si aplica.")
+
+    if sugerencias:
+        for s in sugerencias:
+            st.write(s)
+    else:
+        st.write("✔️ Todos los aspectos revisados. Continuar con implementación de mejoras y estrategia avanzada.")
