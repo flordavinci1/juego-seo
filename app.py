@@ -1,143 +1,62 @@
 import streamlit as st
-import pandas as pd
 
-# ---- Configuración de página ----
-st.set_page_config(page_title="Auditoría SEO Interactiva", page_icon="🔍", layout="wide")
+st.set_page_config(page_title="Auditoría SEO Educativa", layout="wide")
 
-# ---- Estado inicial ----
-if "nivel" not in st.session_state:
-    st.session_state.nivel = 1
-if "resultados" not in st.session_state:
-    st.session_state.resultados = {}
+st.title("🔍 Auditoría SEO Educativa")
+st.markdown("Guía paso a paso para revisar un sitio web en clase. Completá cada casilla para avanzar.")
 
-# ---- Funciones ----
-def siguiente_nivel():
-    st.session_state.nivel += 1
+# --- 1. Requisitos básicos ---
+st.header("1. Requisitos básicos")
+with st.expander("Checklist de requisitos"):
+    robots = st.checkbox("📄 Revisar `robots.txt`")
+    sitemap = st.checkbox("🗺️ Revisar `sitemap.xml`")
+    meta = st.checkbox("🏷️ Revisar metadatos (title y meta descriptions)")
+    screaming = st.checkbox("🛠️ Usar Screaming FLOR para diagnóstico")
 
-def mostrar_progreso():
-    progreso = (st.session_state.nivel - 1) / 5
-    st.progress(progreso)
-    mensajes = [
-        "🚀 ¡Arranquemos con la auditoría!",
-        "🛠 Revisando metadatos...",
-        "📖 Analizando semántica y tópicos...",
-        "🌐 Midiendo reputación y visibilidad...",
-        "🏆 ¡Listo! Tenés tu estrategia SEO."
-    ]
-    st.markdown(f"**{mensajes[st.session_state.nivel - 1]}**")
+# --- 2. Errores técnicos ---
+st.header("2. Errores técnicos")
+with st.expander("Checklist de errores técnicos"):
+    errores_404 = st.checkbox("❌ Revisar errores 404")
+    codigos_200 = st.checkbox("✅ Confirmar que la mayoría de las páginas responden con 200")
+    navegacion = st.checkbox("🧭 Revisar que la navegación no muestre errores")
 
-# ---- Header ----
-st.title("🔍 Auditoría SEO Interactiva")
-st.markdown("Completa cada nivel para desbloquear el siguiente y obtener tu plan SEO. **¡Gana puntos mientras avanzas!**")
+# --- 3. Relevancia semántica ---
+st.header("3. Relevancia semántica")
+with st.expander("Checklist de semántica"):
+    topicos = st.checkbox("📚 Revisar que el sitio esté orientado a los tópicos correctos")
+    alineacion = st.checkbox("📝 Confirmar alineación entre comunicación y objetivos")
+    keyword = st.checkbox("🔑 Realizar Keyword Research inicial")
+    gsc = st.checkbox("📊 Revisar datos de Google Search Console (si hay acceso)")
 
-# ---- Barra de progreso ----
-mostrar_progreso()
+# --- 4. Presencia y reputación ---
+st.header("4. Presencia y reputación")
+with st.expander("Checklist de marca"):
+    menciones = st.checkbox("🗣️ Buscar menciones de la marca con `mi marca -site:midominio.com`")
+    reputacion = st.checkbox("🌍 Revisar si hay conversaciones externas sobre la marca")
 
-# ---- Nivel 1: Infraestructura técnica ----
-if st.session_state.nivel == 1:
-    st.header("📌 Nivel 1: Infraestructura técnica")
-    url = st.text_input("🌍 URL del sitio o competidor")
-    robots = st.checkbox("✅ El sitio tiene robots.txt accesible")
-    sitemap = st.checkbox("✅ El sitio tiene sitemap.xml accesible")
-    errores404 = st.checkbox("❌ Encontraste errores 404")
-    status200 = st.checkbox("✅ La mayoría de las páginas devuelven código 200 (OK)")
+# --- 5. Observaciones finales ---
+st.header("5. Observaciones finales")
+observaciones = st.text_area("✏️ Anotaciones o hallazgos importantes")
 
-    if st.button("Siguiente ➡️", type="primary"):
-        if url:
-            st.session_state.resultados.update({
-                "URL": url,
-                "Robots.txt": robots,
-                "Sitemap.xml": sitemap,
-                "Errores 404": errores404,
-                "Status 200 OK": status200
-            })
-            siguiente_nivel()
-        else:
-            st.warning("Por favor, ingresa al menos la URL.")
+# --- Resumen ---
+st.header("📌 Resumen de auditoría")
+if st.button("Generar resumen"):
+    st.subheader("Checklist completado:")
+    
+    if robots: st.write("✔️ Revisado robots.txt")
+    if sitemap: st.write("✔️ Revisado sitemap.xml")
+    if meta: st.write("✔️ Revisados metadatos")
+    if screaming: st.write("✔️ Usado Screaming FLOR")
+    if errores_404: st.write("✔️ Revisados errores 404")
+    if codigos_200: st.write("✔️ Confirmada navegación con códigos 200")
+    if navegacion: st.write("✔️ Navegación sin errores")
+    if topicos: st.write("✔️ Revisada orientación a tópicos correctos")
+    if alineacion: st.write("✔️ Comunicación alineada")
+    if keyword: st.write("✔️ Keyword research inicial realizado")
+    if gsc: st.write("✔️ Revisados datos de GSC")
+    if menciones: st.write("✔️ Revisadas menciones externas")
+    if reputacion: st.write("✔️ Presencia y reputación verificadas")
 
-# ---- Nivel 2: On-page SEO ----
-elif st.session_state.nivel == 2:
-    st.header("🛠 Nivel 2: Metadatos y estructura on-page")
-    title = st.checkbox("✅ Titles optimizados")
-    meta = st.checkbox("✅ Metadescripciones completas")
-    headers = st.checkbox("✅ Encabezados jerarquizados (H1, H2, H3)")
-    imagenes = st.checkbox("✅ Imágenes con texto alternativo (ALT)")
-
-    if st.button("Siguiente ➡️", type="primary"):
-        st.session_state.resultados.update({
-            "Titles optimizados": title,
-            "Metadescripciones completas": meta,
-            "Encabezados jerarquizados": headers,
-            "Imágenes con ALT": imagenes
-        })
-        siguiente_nivel()
-
-# ---- Nivel 3: Semántica y relevancia ----
-elif st.session_state.nivel == 3:
-    st.header("📖 Nivel 3: Relevancia semántica")
-    topicos = st.text_area("📚 Principales tópicos detectados en el sitio")
-    coherencia = st.selectbox("🎯 Comunicación alineada con marca/industria", ["Sí", "Parcial", "No"])
-    keywords = st.text_area("🔑 Palabras clave identificadas (keyword research)")
-    relevancia = st.slider("📊 Nivel de relevancia semántica (1-10)", 1, 10, 5)
-
-    if st.button("Siguiente ➡️", type="primary"):
-        st.session_state.resultados.update({
-            "Tópicos principales": topicos,
-            "Coherencia comunicacional": coherencia,
-            "Palabras clave": keywords,
-            "Relevancia semántica (1-10)": relevancia
-        })
-        siguiente_nivel()
-
-# ---- Nivel 4: Reputación y visibilidad ----
-elif st.session_state.nivel == 4:
-    st.header("🌐 Nivel 4: Reputación y visibilidad")
-    menciones = st.text_area("📰 Personas hablando de la marca (`mi marca -site:midominio.com`)")
-    backlinks = st.text_input("🔗 Backlinks / menciones externas (aprox.)")
-    presencia = st.text_area("📢 Presencia en medios, foros o redes sociales")
-    gsc = st.text_area("📊 Keywords desde Google Search Console (si hay acceso)")
-
-    if st.button("Siguiente ➡️", type="primary"):
-        st.session_state.resultados.update({
-            "Menciones externas": menciones,
-            "Backlinks": backlinks,
-            "Presencia en medios/redes": presencia,
-            "Keywords desde GSC": gsc
-        })
-        siguiente_nivel()
-
-# ---- Nivel 5: Estrategia ----
-elif st.session_state.nivel == 5:
-    st.header("🏆 Nivel 5: Estrategia SEO")
-    mejoras_tecnicas = st.text_area("🛠 Lista de mejoras técnicas prioritarias")
-    mejoras_onpage = st.text_area("🔑 Acciones sobre metadatos y on-page")
-    plan_contenidos = st.text_area("📝 Estrategia de contenidos (keywords + tópicos)")
-    branding = st.text_area("📢 Acciones de branding / reputación digital")
-
-    if st.button("Finalizar ✅", type="primary"):
-        st.session_state.resultados.update({
-            "Mejoras técnicas": mejoras_tecnicas,
-            "Acciones on-page": mejoras_onpage,
-            "Plan de contenidos": plan_contenidos,
-            "Acciones de branding": branding
-        })
-        siguiente_nivel()
-
-# ---- Resumen final ----
-elif st.session_state.nivel == 6:
-    st.header("📊 Resumen de la auditoría SEO")
-    st.success("¡Felicidades! Has completado toda la auditoría. 🎉")
-
-    df = pd.DataFrame(st.session_state.resultados.items(), columns=["Elemento", "Valor"])
-    st.table(df)
-
-    # Descargar CSV
-    csv = df.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label="📥 Descargar resultados en CSV",
-        data=csv,
-        file_name="auditoria_seo.csv",
-        mime="text/csv"
-    )
-
-    st.balloons()
+    if observaciones:
+        st.subheader("📝 Observaciones")
+        st.write(observaciones)
